@@ -23,19 +23,20 @@ end
 
 ruby_block "submit dynamic fleet initialization jobs" do
   block do
-    require 'json'
+    require 'yaml'
     require 'chef/mixin/shell_out'
     require 'shellwords'
 
-    cluster_config = JSON.parse(File.read(node['cfncluster']['cluster_config_path']))
-    cluster_config["cluster"]["queue_settings"].each do |queue_name, queue_config|
-      queue_config["compute_resource_settings"].each_value do |instance_config|
-        required_dynamic = instance_config.fetch("initial_count", 0) - instance_config.fetch("min_count", 0)
+    cluster_config = YAML.load(File.read(node['cfncluster']['cluster_config_path']))
+    cluster_config["Scheduling"]["Slurm"]["Queues"].each do |queue|
+      queue_name = queue["Name"]
+      queue["ComputeResources"].each do |compute_resource|
+        required_dynamic = compute_resource.fetch("InitialCount", 0) - compute_resource.fetch("MinCount", 0)
         if required_dynamic.positive?
           # Submitting a job for each instance type that requires an initial_count > min_count
-          Chef::Log.info("Submitting job to run dynamic capacity for queue #{queue_name} and instance #{instance_config['instance_type']}")
+          Chef::Log.info("Submitting job to run dynamic capacity for queue #{queue_name} and instance #{compute_resource['InstanceType']}")
           submit_job_command = Shellwords.escape("/opt/slurm/bin/sbatch --wrap 'sleep infinity' --job-name=parallelcluster-init-cluster "\
-                                                 "--constraint='[(dynamic&#{instance_config['instance_type']})*#{required_dynamic}]' --partition=#{queue_name}")
+                                                 "--constraint='[(dynamic&#{compute_resource['InstanceType']})*#{required_dynamic}]' --partition=#{queue_name}")
           shell_out!("/bin/bash -c #{submit_job_command}")
         end
       end
