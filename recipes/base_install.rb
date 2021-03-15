@@ -22,8 +22,10 @@ when 'rhel', 'amazon'
   include_recipe 'yum'
   if node['platform_family'] == 'amazon' && node['platform_version'].to_i == 2
     alinux_extras_topic 'epel'
-  elsif node['platform_version'].to_i < 7
-    include_recipe "yum-epel"
+  elsif node['platform_family'] == 'rhel'
+    execute 'install EPEL repo' do
+      command "sudo yum -y install epel-release"
+    end
   end
 
   unless node['platform_version'].to_i < 7
