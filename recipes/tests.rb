@@ -341,8 +341,25 @@ if node['conditions']['intel_mpi_supported']
 end
 
 ###################
-# EFA - GDR (GPUDirect RDMA)
+# EFA
 ###################
+if node['cfncluster']['os'].end_with?("-custom")
+  # only check EFA is installed because when found in the base AMI we skip installation
+  execute 'check efa installed' do
+    command "modinfo efa"
+    user node['cfncluster']['cfn_cluster_user']
+  end
+else
+  bash 'check efa installed' do
+    cwd Chef::Config[:file_cache_path]
+    code <<-EFA
+      set -ex
+      modinfo efa
+      grep "EFA installer version: #{node['cfncluster']['efa']['installer_version']}" /opt/amazon/efa_installed_packages
+    EFA
+  end
+end
+# GDR (GPUDirect RDMA)
 if node['conditions']['efa_supported'] && efa_gdr_enabled?
   execute 'check efa gdr installed' do
     command "modinfo efa | grep 'gdr:\ *Y'"

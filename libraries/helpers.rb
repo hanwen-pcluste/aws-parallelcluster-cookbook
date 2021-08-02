@@ -531,3 +531,13 @@ def configure_gc_thresh_values
     end
   end
 end
+
+def efa_installed?
+  dir_exist = ::Dir.exist?('/opt/amazon/efa')
+  if dir_exist
+    modinfo_efa_stdout = Mixlib::ShellOut.new("modinfo efa").run_command.stdout
+    efa_installed_packages_file = Mixlib::ShellOut.new("cat /opt/amazon/efa_installed_packages").run_command.stdout
+    Chef::Log.warn("'/opt/amazon/efa directory already exists. 'modinfo efa stdout: #{modinfo_efa_stdout}\nefa_installed_packages_file_content: #{efa_installed_packages_file}")
+  end
+  dir_exist
+end
