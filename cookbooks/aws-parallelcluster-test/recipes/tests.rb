@@ -224,7 +224,7 @@ end
 ###################
 # EFA - GDR (GPUDirect RDMA)
 ###################
-if node['conditions']['efa_supported'] && efa_gdr_enabled?
+if node['conditions']['efa_supported']
   execute 'check efa gdr installed' do
     command "modinfo efa | grep 'gdr:\ *Y'"
     user node['cluster']['cluster_user']
