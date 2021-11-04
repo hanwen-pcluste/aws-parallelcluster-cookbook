@@ -92,11 +92,6 @@ elsif node['platform'] == 'ubuntu'
     retry_delay 5
   end
 
-  package "lustre-client-modules-aws" do
-    retries 3
-    retry_delay 5
-  end
-
   kernel_module 'lnet'
 
 elsif node['platform'] == 'amazon'
