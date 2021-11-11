@@ -453,6 +453,17 @@ default['cluster']['cluster_user'] = 'ec2-user'
 default['cluster']['head_node_private_ip'] = nil
 default['cluster']['volume'] = nil
 
+# ParallelCluster internal variables to configure active directory service
+default['cluster']["directory_service"]["enabled"] = nil
+default['cluster']["directory_service"]["domain_name"] = nil
+default['cluster']["directory_service"]["domain_addr"] = nil
+default['cluster']["directory_service"]["password_secret_arn"] = nil
+default['cluster']["directory_service"]["domain_read_only_user"] = nil
+default['cluster']["directory_service"]["ldap_tls_ca_cert"] = "NONE"
+default['cluster']["directory_service"]["ldap_tls_req_cert"] = "NONE"
+default['cluster']["directory_service"]["ldap_access_filter"] = "NONE"
+default['cluster']["directory_service"]["generate_ssh_keys_for_users"] = nil
+
 # Other ParallelCluster internal variables
 default['cluster']['ddb_table'] = nil
 default['cluster']['log_group_name'] = "NONE"
