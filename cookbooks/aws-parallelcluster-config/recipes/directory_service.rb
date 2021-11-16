@@ -38,6 +38,7 @@ if node['cluster']['node_type'] == 'HeadNode'
     owner 'root'
     group 'root'
     mode '0600'
+    sensitive true
   end
 
   file "#{node['cluster']['shared_dir']}/directory_service/ldap_default_authtok" do
@@ -45,6 +46,7 @@ if node['cluster']['node_type'] == 'HeadNode'
     owner 'root'
     group 'root'
     mode '0600'
+    sensitive true
   end
 end
 
@@ -54,6 +56,7 @@ template '/etc/sssd/sssd.conf' do
   group 'root'
   mode '0600'
   variables(obfuscated_password: lazy { shell_out!("cat #{node['cluster']['shared_dir']}/directory_service/ldap_default_authtok").stdout })
+  sensitive true
 end
 
 bash 'Configure Directory Service' do
@@ -68,4 +71,5 @@ bash 'Configure Directory Service' do
       systemctl restart $SERVICE
       done
   AD
+  sensitive true
 end
