@@ -83,6 +83,3 @@ include_recipe 'aws-parallelcluster-config::fsx_mount'
 
 # Intel Runtime Libraries
 include_recipe "aws-parallelcluster-config::intel"
-
-# Active Directory Service
-include_recipe "aws-parallelcluster-config::directory_service"
