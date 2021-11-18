@@ -21,6 +21,11 @@ directory_service_dir = "#{node['cluster']['shared_dir']}/directory_service"
 sssd_conf_path = "/etc/sssd/sssd.conf"
 shared_sssd_conf_path = "#{directory_service_dir}/sssd.conf"
 
+package %w(sssd sssd-tools sssd-ldap curl python-sss) do
+  retries 10
+  retry_delay 5
+end
+
 if node['cluster']['node_type'] == 'HeadNode'
   # Head node writes the sssd.conf file and contacts the secret manager to retrieve the LDAP password.
   # Then the sssd.conf file is shared through shared_sssd_conf_path to compute nodes.
