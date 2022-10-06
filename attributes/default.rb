@@ -262,6 +262,14 @@ default['cluster']['efa']['installer_version'] = '1.18.0'
 default['cluster']['efa']['installer_url'] = "https://efa-installer.amazonaws.com/aws-efa-installer-#{node['cluster']['efa']['installer_version']}.tar.gz"
 default['cluster']['efa']['unsupported_aarch64_oses'] = %w(centos7)
 
+# EFS Utils and its dependency stunnel
+default['cluster']['efs_utils']['version'] = '1.33.3'
+default['cluster']['efs_utils']['url'] = "https://github.com/aws/efs-utils/archive/v#{node['cluster']['efs_utils']['version']}.tar.gz"
+default['cluster']['efs_utils']['sha256'] = '8bf9703d1dfc5cdd5e98539194cb9086873bdc2d938664356a94a727a78d40b6'
+default['cluster']['stunnel']['version'] = '5.66'
+default['cluster']['stunnel']['url'] = "https://www.stunnel.org/downloads/stunnel-#{node['cluster']['stunnel']['version']}.tar.gz"
+default['cluster']['stunnel']['sha256'] = '558178704d1aa5f6883aac6cc5d6bbf2a5714c8a0d2e91da0392468cee9f579c'
+
 # NICE DCV
 default['cluster']['dcv_port'] = 8443
 default['cluster']['dcv']['installed'] = 'yes'
