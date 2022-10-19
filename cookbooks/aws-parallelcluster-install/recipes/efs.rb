@@ -19,9 +19,6 @@ package_name = "amazon-efs-utils"
 efs_utils_tarball = "#{node['cluster']['sources_dir']}/efs-utils-#{node['cluster']['efs_utils']['version']}.tar.gz"
 return unless platform?('amazon')
 
-# Do not install efs-utils if a same or newer version is already installed.
-return if Gem::Version.new(get_package_version(package_name)) >= Gem::Version.new(node['cluster']['efs_utils']['version'])
-
 # Get EFS Utils tarball
 remote_file efs_utils_tarball do
   source node['cluster']['efs_utils']['url']
