@@ -23,6 +23,31 @@ property :fsx_volume_junction_path_array, Array, required: true
 default_action :mount
 
 action :mount do
+  if shell_out("lsmod | grep ^lustre").stdout.strip.empty? or shell_out("lsmod | grep ^lustre | awk '{print $3}'").stdout.strip == "0"
+    change_modprobe_conf = true
+    modprobe_conf_path = "/etc/modprobe.d/modprobe.conf"
+    ptlrpcd_per_cpt_max = "options ptlrpc ptlrpcd_per_cpt_max"
+    ksocklnd_credits = "options ksocklnd credits"
+    if ::File.exist?(modprobe_conf_path)
+      modprobe_conf = ::File.read(modprobe_conf_path)
+      if modprobe_conf.include? ptlrpcd_per_cpt_max or modprobe_conf.include? ksocklnd_credits
+        change_modprobe_conf = false
+      end
+    end
+    if change_modprobe_conf
+      append_if_no_line "set ptlrpcd_per_cpt_max to 32" do
+        path modprobe_conf_path
+        line "#{ptlrpcd_per_cpt_max}=32"
+      end
+      append_if_no_line "set ksocklnd credits to 2560" do
+        path modprobe_conf_path
+        line "#{ksocklnd_credits}=2560"
+      end
+      execute 'Reload Lustre module to read in the new parameter values' do
+        command "lustre_rmmod && modprobe lustre"
+      end
+    end
+  end
   fsx_fs_id_array = new_resource.fsx_fs_id_array.dup
   fsx_fs_type_array = new_resource.fsx_fs_type_array.dup
   fsx_shared_dir_array = new_resource.fsx_shared_dir_array.dup
@@ -140,6 +165,14 @@ action :mount do
       group 'root'
       mode '1777'
     end
+  end
+  bash 'Apply FSx performance tunings after clients are mounted' do
+    user 'root'
+    code <<-FSx
+      lctl set_param osc.*OST*.max_rpcs_in_flight=32
+      lctl set_param mdc.*.max_rpcs_in_flight=64
+      lctl set_param mdc.*.max_mod_rpcs_in_flight=50
+    FSx
   end
 end
 
