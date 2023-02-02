@@ -23,6 +23,10 @@ property :fsx_volume_junction_path_array, Array, required: true
 default_action :mount
 
 action :mount do
+  template "/sbin/mount.lustre_with_performance_tuning" do
+    source 'shared_storages/mount.lustre_with_performance_tuning.erb'
+    mode '0755'
+  end
   fsx_fs_id_array = new_resource.fsx_fs_id_array.dup
   fsx_fs_type_array = new_resource.fsx_fs_type_array.dup
   fsx_shared_dir_array = new_resource.fsx_shared_dir_array.dup
@@ -63,7 +67,7 @@ action :mount do
 
       mount fsx_shared_dir do
         device "#{dns_name}@tcp:/#{mount_name}"
-        fstype 'lustre'
+        fstype 'lustre_with_performance_tuning'
         dump 0
         pass 0
         options mount_options
@@ -75,7 +79,7 @@ action :mount do
 
       mount fsx_shared_dir do
         device "#{dns_name}@tcp:/#{mount_name}"
-        fstype 'lustre'
+        fstype 'lustre_with_performance_tuning'
         dump 0
         pass 0
         options mount_options
