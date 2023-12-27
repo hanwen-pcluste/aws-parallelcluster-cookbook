@@ -32,7 +32,7 @@ action :setup do
 
   execute 'yum-config-manager-rhel' do
     # Needed by hwloc-devel blas-devel libedit-devel and glibc-static packages
-    command "yum-config-manager --enable codeready-builder-for-rhel-8-rhui-rpms"
+    command "yum-config-manager --enable codeready-builder-for-rhel-#{node['platform_version'].to_i}-rhui-rpms"
   end unless on_docker?
 
   execute 'yum-config-manager_skip_if_unavail' do
