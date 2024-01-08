@@ -45,6 +45,8 @@ suites:
         - /tag:install_munge/
     attributes:
       resource: munge
+      dependencies:
+        - resource:directories
   - name: slurm_dependencies
     run_list:
       - recipe[aws-parallelcluster-tests::setup]

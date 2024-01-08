@@ -47,13 +47,14 @@ action :create_common_udev_files do
     mode '0744'
   end
 
-  cookbook_file 'ec2blkdev-init' do
-    source 'ec2_udev_rules/ec2blkdev-init'
+  template 'ec2blkdev.service' do
+    source 'ec2_udev_rules/ec2blkdev.service.erb'
     cookbook 'aws-parallelcluster-environment'
-    path '/etc/init.d/ec2blkdev'
-    user 'root'
+    path '/etc/systemd/system/ec2blkdev.service'
+    owner 'root'
     group 'root'
-    mode '0744'
+    mode '0644'
+    variables(network_target: 'network-online.target')
   end
 
   cookbook_file 'manageVolume.py' do

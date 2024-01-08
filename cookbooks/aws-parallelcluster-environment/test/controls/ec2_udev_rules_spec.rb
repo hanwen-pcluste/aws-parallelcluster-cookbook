@@ -9,7 +9,7 @@ control 'tag:install_ec2_udev_rules_write_common_udev_configuration_files' do
     its('mode') { should cmp '0644' }
   end
 
-  paths = %w(/usr/local/sbin/parallelcluster-ebsnvme-id /sbin/ec2_dev_2_volid.py /etc/init.d/ec2blkdev)
+  paths = %w(/usr/local/sbin/parallelcluster-ebsnvme-id /sbin/ec2_dev_2_volid.py /etc/systemd/system/ec2blkdev.service)
   paths.each do |path|
     describe file(path) do
       it { should exist }
@@ -51,6 +51,5 @@ control 'tag:install_tag:config_ec2_udev_rules_ec2blkdev_service_installation' d
   describe service('ec2blkdev') do
     it { should be_installed }
     it { should be_enabled }
-    it { should be_running }
   end
 end

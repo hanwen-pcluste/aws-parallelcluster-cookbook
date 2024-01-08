@@ -48,10 +48,10 @@ describe 'ec2_udev_rules:setup' do
 
         is_expected.to create_cookbook_file('ec2blkdev-init')
           .with(source: 'ec2_udev_rules/ec2blkdev-init')
-          .with(path: '/etc/init.d/ec2blkdev')
+          .with(path: '/etc/systemd/system/ec2blkdev.service')
           .with(user: 'root')
           .with(group: 'root')
-          .with(mode: '0744')
+          .with(mode: '0644')
 
         is_expected.to create_cookbook_file('manageVolume.py')
           .with(source: 'ec2_udev_rules/manageVolume.py')
