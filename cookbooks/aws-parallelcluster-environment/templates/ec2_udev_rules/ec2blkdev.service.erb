@@ -3,7 +3,7 @@ Description=Setup ephemeral drives service
 After=<%= @network_target %>
 
 [Service]
-ExecStart=/sbin/udevadm trigger --action=change --subsystem-match=block && sleep 15
+ExecStart=/sbin/udevadm trigger --action=change --subsystem-match=block; sleep 15
 
 [Install]
 WantedBy=multi-user.target

@@ -17,14 +17,17 @@ METADATA_REQUEST_TIMEOUT = 60
 
 def get_imdsv2_token():
     # Try with getting IMDSv2 token, fall back to IMDSv1 if can not get the token
+    syslog.syslog(f"Helllllllll2.1")
     token = requests.put(
         "http://169.254.169.254/latest/api/token",
         headers={"X-aws-ec2-metadata-token-ttl-seconds": "300"},
         timeout=METADATA_REQUEST_TIMEOUT,
     )
+    syslog.syslog(f"Helllllllll2.2")
     headers = {}
     if token.status_code == requests.codes.ok:
         headers["X-aws-ec2-metadata-token"] = token.content
+    syslog.syslog(f"Helllllllll2.3")
     return headers
 
 
@@ -115,17 +118,20 @@ def main():
         syslog.syslog(f"Input block device is {dev}")
     except IndexError:
         syslog.syslog(syslog.LOG_ERR, "Provide block device i.e. xvdf")
-
+    syslog.syslog(f"Helllllllll1")
     dev = adapt_device_name(dev)
-
+    syslog.syslog(f"Helllllllll2")
     token = get_imdsv2_token()
-
+    syslog.syslog(f"Helllllllll3")
     instance_id = get_metadata_value(token, "http://169.254.169.254/latest/meta-data/instance-id")
-
+    syslog.syslog(f"Helllllllll4")
     region = get_metadata_value(token, "http://169.254.169.254/latest/meta-data/placement/availability-zone")
+    syslog.syslog(f"Helllllllll5")
     region = region[:-1]
+    syslog.syslog(f"Helllllllll6")
 
     proxy_config = parse_proxy_config()
+    syslog.syslog(f"Helllllllll7")
 
     # Configure the AWS CA bundle.
     # In US isolated regions the dedicated CA bundle will be used.
@@ -134,9 +140,9 @@ def main():
     # but for the time being this is enough to support US isolated regions without
     # impacting the other ones.
     ca_bundle = f"/etc/pki/{region}/certs/ca-bundle.pem" if region.startswith("us-iso") else None
-
+    syslog.syslog(f"Helllllllll8")
     ec2 = boto3.client("ec2", region_name=region, config=proxy_config, verify=ca_bundle)
-
+    syslog.syslog(f"Helllllllll9")
     volume_id = get_device_volume_id(ec2, dev, instance_id)
     print(volume_id)
 
