@@ -47,7 +47,7 @@ action :create_common_udev_files do
     mode '0744'
   end
 
-  template 'ec2blkdev.service' do
+  template 'ec2blkdev.service' do # ToDo:check service running
     source 'ec2_udev_rules/ec2blkdev.service.erb'
     cookbook 'aws-parallelcluster-environment'
     path '/etc/systemd/system/ec2blkdev.service'

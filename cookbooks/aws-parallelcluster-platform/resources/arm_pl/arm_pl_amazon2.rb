@@ -20,4 +20,7 @@ action_class do
   def armpl_platform
     'AmazonLinux-2'
   end
+  def gcc_major_minor_version
+    '9.3'
+  end
 end

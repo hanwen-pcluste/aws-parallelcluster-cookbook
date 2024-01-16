@@ -50,6 +50,6 @@ control 'tag:install_tag:config_ec2_udev_rules_ec2blkdev_service_installation' d
 
   describe service('ec2blkdev') do
     it { should be_installed }
-    it { should be_enabled }
+    it { should be_enabled } # ToDo double check if the service should be running or can be dead
   end
 end

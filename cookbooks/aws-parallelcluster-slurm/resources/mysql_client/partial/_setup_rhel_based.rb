@@ -15,31 +15,29 @@
 
 action :setup do
   mysql_archive_url = package_archive(node['cluster']['artifacts_s3_url'])
-  mysql_tar_file = "/tmp/#{package_filename}"
+  mysql_tar_file = "/tmp/" # ToDo upload mysql to S3 and revert the code
 
   log "Downloading MySQL packages archive from #{mysql_archive_url}"
 
   # Add MySQL source file
   action_create_source_link
-
-  remote_file mysql_tar_file do
-    source mysql_archive_url
-    mode '0644'
-    retries 3
-    retry_delay 5
-    action :create_if_missing
+  for package in ["common", "client-plugins", "libs", "devel"]
+    file_name = "mysql-community-#{package}-#{package_version}.el#{node['platform_version'].to_i}.#{arm_instance? ? 'aarch64' : 'x86_64'}.rpm"
+    remote_file "/tmp/#{file_name}" do
+      source "https://dev.mysql.com/get/Downloads/MySQL-8.0/#{file_name}"
+      mode '0644'
+      retries 3
+      retry_delay 5
+      action :create_if_missing
+    end
   end
-
   bash 'Install MySQL packages' do
     user 'root'
     group 'root'
     cwd '/tmp'
     code <<-MYSQL
         set -e
-
-        EXTRACT_DIR=$(mktemp -d --tmpdir mysql.XXXXXXX)
-        tar xf "#{mysql_tar_file}" --directory "${EXTRACT_DIR}"
-        yum install -y ${EXTRACT_DIR}/*
+        yum install -y mysql-community-*
     MYSQL
   end
 end

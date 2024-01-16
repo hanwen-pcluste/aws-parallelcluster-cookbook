@@ -22,4 +22,12 @@ action_class do
   def armpl_platform
     "RHEL-#{node['platform_version'].to_i}"
   end
+  def gcc_major_minor_version
+    case node['platform_version'].to_i
+    when 8
+      '9.3'
+    when 9
+      '11.3'
+    end
+  end
 end
