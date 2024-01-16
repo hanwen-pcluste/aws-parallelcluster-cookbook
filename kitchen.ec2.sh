@@ -66,7 +66,7 @@ fi
 : "${KITCHEN_KEY_NAME:=kitchen}"
 : "${KITCHEN_SSH_KEY_PATH:="~/.ssh/${KITCHEN_KEY_NAME}-${KITCHEN_AWS_REGION}.pem"}"
 : "${KITCHEN_AVAILABILITY_ZONE:=a}"
-: "${KITCHEN_ARCHITECTURE:=x86_64}"
+: "${KITCHEN_ARCHITECTURE:=arm64}"
 
 if [ "$1" == "create" ] || [ "$1" == "converge" ] || [ "$1" == "verify" ] || [ "$1" == "destroy" ] || [ "$1" == "test" ]; then
   # Subnet
