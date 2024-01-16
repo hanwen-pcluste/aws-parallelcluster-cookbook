@@ -27,9 +27,8 @@ property :aws_domain, String
 # We upload ArmPL to a ParallelCluster bucket (account for it in scope of the upgrade) and download it from there
 # to install ArmPL on the AMI.
 # We download gcc directly from gnu.org repository to install correct gcc version on the AMI.
-property :armpl_major_minor_version, String, default: '21.0'
-property :armpl_patch_version, String, default: '0'
-property :gcc_major_minor_version, String, default: '9.3'
+property :armpl_major_minor_version, String, default: '23.10'
+property :gcc_major_minor_version, String, default: '11.3'
 property :gcc_patch_version, String, default: '0'
 
 action :arm_pl_prerequisite do
@@ -53,7 +52,7 @@ action :setup do
 
   action_arm_pl_prerequisite
 
-  armpl_version = "#{new_resource.armpl_major_minor_version}.#{new_resource.armpl_patch_version}"
+  armpl_version = "#{new_resource.armpl_major_minor_version}"
   armpl_tarball_name = "arm-performance-libraries_#{armpl_version}_#{armpl_platform}_gcc-#{new_resource.gcc_major_minor_version}.tar"
 
   armpl_url = %W(
@@ -170,7 +169,6 @@ action :setup do
   # to dependencies (for instance, test code)
   # Complete versions are intentionally redundant.
   node.default['cluster']['armpl']['major_minor_version'] = new_resource.armpl_major_minor_version
-  node.default['cluster']['armpl']['patch_version'] = new_resource.armpl_patch_version
   node.default['cluster']['armpl']['version'] = armpl_version
   node.default['cluster']['armpl']['gcc']['major_minor_version'] = new_resource.gcc_major_minor_version
   node.default['cluster']['armpl']['gcc']['patch_version'] = new_resource.gcc_patch_version

@@ -18,6 +18,6 @@ use 'partial/_arm_pl_common.rb'
 
 action_class do
   def armpl_platform
-    'RHEL-8'
+    'AmazonLinux-2'
   end
 end

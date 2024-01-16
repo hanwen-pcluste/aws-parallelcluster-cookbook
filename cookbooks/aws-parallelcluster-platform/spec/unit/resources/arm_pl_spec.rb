@@ -16,18 +16,7 @@ describe 'arm_pl:setup' do
       cached(:aws_region) { 'test_region' }
       cached(:aws_domain) { 'test_domain' }
       cached(:armpl_major_minor_version) do
-        if platform == 'ubuntu' && version == '22.04'
-          '23.04'
-        else
-          '21.0'
-        end
-      end
-      cached(:armpl_patch_version) do
-        if platform == 'ubuntu' && version == '22.04'
-          '1'
-        else
-          '0'
-        end
+        '23.10'
       end
 
       cached(:armpl_platform) do
@@ -36,17 +25,15 @@ describe 'arm_pl:setup' do
           'RHEL-7'
         when 'ubuntu'
           "Ubuntu-#{version}"
+        when 'amazon'
+          "AmazonLinux-2"
         else
-          'RHEL-8'
+          "RHEL-#{version}"
         end
       end
 
       cached(:gcc_major_minor_version) do
-        if platform == 'ubuntu' && version == '22.04'
-          '11.3'
-        else
-          '9.3'
-        end
+        '11.3'
       end
 
       cached(:gcc_patch_version) { '0' }
