@@ -56,11 +56,6 @@ describe 'aws-parallelcluster-environment::imds' do
           is_expected.to run_execute("Save ip6tables rules").with(command: /ip6tables-save/)
         end
 
-        it 'creates iptables init.d file' do
-          is_expected.to create_template("/etc/init.d/parallelcluster-iptables")
-            .with(source: 'imds/parallelcluster-iptables.erb')
-        end
-
         it 'starts parallelcluster-iptables service' do
           is_expected.to enable_service('parallelcluster-iptables').with_action(%i(enable start))
         end
