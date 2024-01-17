@@ -1,9 +1,4 @@
-action_class do
-  def grub_variable
-    'GRUB_CMDLINE_LINUX_DEFAULT'
-  end
-
-  def grub_regenerate_boot_menu_command
-    '/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg'
-  end
+action :setup do
+  return if !x86_instance? || on_docker?
+  shell_out!('grubby --update-kernel=ALL --args="intel_idle.max_cstate=1 processor.max_cstate=1"')
 end
