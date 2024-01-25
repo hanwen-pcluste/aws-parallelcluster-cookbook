@@ -87,7 +87,7 @@ platforms:
       image: <% if ENV['KITCHEN_RHEL8_IMAGE'] %> <%= ENV['KITCHEN_RHEL8_IMAGE'] %> <% else %>registry.access.redhat.com/ubi9/ubi <% end %>
       intermediate_instructions:
         - RUN chmod +t /tmp
-        - RUN yum install libxcrypt-compat -y
+        - RUN yum install libxcrypt-compat -y # ToDo: more investigation on why
     attributes:
       cluster:
         base_os: rhel9

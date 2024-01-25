@@ -161,6 +161,7 @@ platforms:
       # Use the RedHat 8 AMI most similar to the base AMI used to build the ParallelCluster image
       image_id: <%= ENV['KITCHEN_RHEL9_AMI'] %>
       <% else %>
+      # ToDo AMI license
       image_search:
         name: <% if ENV['KITCHEN_PHASE']=='install' %>RHEL-9.3.*_HVM*<% else %><%= pcluster_prefix %>-rhel9-hvm-*<% end %>
         architecture: <%= ENV['KITCHEN_ARCHITECTURE'] %>

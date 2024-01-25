@@ -47,6 +47,7 @@ end
 def default_packages
   # environment-modules required by EFA, Intel MPI and ARM PL
   # iptables needed for IMDS setup
+  # ToDo send a message in pcluster-interest to see if the package removal/addition is ok
   packages = %w(vim ksh tcsh zsh openssl-devel ncurses-devel pam-devel net-tools openmotif-devel
      libXmu-devel hwloc-devel libdb-devel tcl-devel automake autoconf libtool
      httpd boost-devel mlocate R atlas-devel
