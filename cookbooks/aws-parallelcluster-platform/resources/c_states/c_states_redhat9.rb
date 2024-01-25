@@ -12,9 +12,9 @@
 # This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-provides :c_states, platform: 'rocky' do |node|
-  node['platform_version'].to_i == 8
+provides :c_states, platform: 'redhat' do |node|
+  node['platform_version'].to_i == 9
 end
 
 use 'partial/_c_states_common'
-use 'partial/_c_states_redhat_based'
+use 'partial/_c_states_redhat_9_based'

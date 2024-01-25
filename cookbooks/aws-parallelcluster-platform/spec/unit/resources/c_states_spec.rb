@@ -11,6 +11,9 @@ class ConvergeCStates
 end
 
 describe 'c_states:setup' do
+  stubs_for_provider("c_states[setup]") do |provider|
+    allow(provider).to receive_shell_out("grubby --update-kernel=ALL --args=\"intel_idle.max_cstate=1 processor.max_cstate=1\"")
+  end
   before do
     stubs_for_resource('c_states') do |res|
       allow(res).to receive(:append_if_not_present_grub_cmdline)
