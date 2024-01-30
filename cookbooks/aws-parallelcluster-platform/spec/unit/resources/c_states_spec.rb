@@ -11,10 +11,10 @@ class ConvergeCStates
 end
 
 describe 'c_states:setup' do
-  stubs_for_provider("c_states[setup]") do |provider|
-    allow(provider).to receive_shell_out("grubby --update-kernel=ALL --args=\"intel_idle.max_cstate=1 processor.max_cstate=1\"")
-  end
   before do
+    stubs_for_provider("c_states[setup]") do |provider|
+      allow(provider).to receive_shell_out("grubby --update-kernel=ALL --args=\"intel_idle.max_cstate=1 processor.max_cstate=1\"")
+    end
     stubs_for_resource('c_states') do |res|
       allow(res).to receive(:append_if_not_present_grub_cmdline)
     end
@@ -38,7 +38,11 @@ describe 'c_states:setup' do
       cached(:regenerate_grub_boot_menu_command) do
         platform == 'ubuntu' ? '/usr/sbin/update-grub' : '/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg'
       end
+      if (platform == "rocky" || platform == "redhat") && version == "9"
+        it 'runs grubby command' do
 
+        end
+      end
       it 'sets up c_states' do
         is_expected.to setup_c_states('setup')
       end
