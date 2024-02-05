@@ -23,9 +23,9 @@ then
 fi
 
 con_name="System ${DEVICE_NAME}"
-route_table="100${DEVICE_NUMBER}"
-priority="100${DEVICE_NUMBER}"
-metric="100${DEVICE_NUMBER}"
+route_table="9${DEVICE_NUMBER}"
+priority="9${DEVICE_NUMBER}"
+metric="9${DEVICE_NUMBER}"
 
 # Rename connection
 original_con_name=`nmcli -t -f GENERAL.CONNECTION device show ${DEVICE_NAME} | cut -f2 -d':'`
