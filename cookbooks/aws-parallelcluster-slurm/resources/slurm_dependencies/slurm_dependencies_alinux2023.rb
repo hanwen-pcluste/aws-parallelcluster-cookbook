@@ -18,7 +18,6 @@ def dependencies
   %w(json-c-devel perl perl-Switch lua-devel dbus-devel)
 end
 
-
 def unsupported_dependencies
   # Using `sudo dnf supportinfo --pkg <PACKAGE_NAME>` to find if packages are available
   %w(http-parser-devel)
