@@ -21,4 +21,21 @@ end
 def unsupported_dependencies
   # Using `sudo dnf supportinfo --pkg <PACKAGE_NAME>` to find if packages are available
   %w(http-parser-devel)
+  # Tried replacing http-parser with below Packages ( doesnt work )
+  # %w(httpcomponents-client httpcomponents-core httpcomponents-project httpd httpd-core httpd-devel httpd-filesystem httpd-manual	httpd-tools)
+end
+
+action :install_extra_dependencies do
+  # Following https://slurm.schedmd.com/related_software.html#jwt for Installing Http-parser
+  bash 'Install http-parser' do
+    user 'root'
+    group 'root'
+    code <<-HTTP_PARSER
+    set -e
+    git clone --depth 1 --single-branch -b v2.9.4 https://github.com/nodejs/http-parser.git http_parser
+    cd http_parser
+    make
+    make install
+    HTTP_PARSER
+  end
 end
