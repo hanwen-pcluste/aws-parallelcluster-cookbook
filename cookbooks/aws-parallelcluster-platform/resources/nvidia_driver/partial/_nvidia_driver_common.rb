@@ -56,6 +56,7 @@ action :setup do
     end
     # TODO: Move to install_packages_alinux2023
     package extra_packages do
+      only_if { extra_packages.any? }
       retries 10
       retry_delay 5
     end
