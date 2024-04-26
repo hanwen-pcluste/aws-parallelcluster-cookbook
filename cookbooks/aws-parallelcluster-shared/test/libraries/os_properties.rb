@@ -17,6 +17,7 @@ class OsProperties < Inspec.resource(1)
   end
 
   def redhat?
+    # RedHat also includes Amazon
     inspec.os.name == 'redhat'
   end
 
