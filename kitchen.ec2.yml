@@ -133,10 +133,6 @@ platforms:
     attributes:
       cluster:
         base_os: alinux2023
-    provisioner:
-      # Package for AL2023 is not available in the default path
-#      download_url: http://downloads.cinc.sh/files/stable/cinc/18.4.12/amazon/2023/cinc-18.4.12-1.amazon2023.aarch64.rpm
-      download_url: http://downloads.cinc.sh/files/stable/cinc/18.4.12/amazon/2023/cinc-18.4.12-1.amazon2023.x86_64.rpm
   - name: rhel8
     driver_plugin: ec2
     driver:
