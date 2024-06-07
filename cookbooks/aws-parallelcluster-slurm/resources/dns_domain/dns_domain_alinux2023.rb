@@ -16,7 +16,7 @@ use 'partial/_dns_domain_common'
 
 def search_domain_config_path
   # Configure resolved to automatically append Route53 search domain in resolv.conf.
-  # On Ubuntu18 resolv.conf is managed by systemd-resolved.
+  # On Amazon Linux 2023 resolv.conf is managed by systemd-resolved.
   '/etc/systemd/resolved.conf'
 end
 
