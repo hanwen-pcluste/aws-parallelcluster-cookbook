@@ -12,7 +12,7 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions and
 # limitations under the License.
 
-return if on_docker?
+return if on_docker? or platform?('amazon') && node['platform_version'].to_i == 2023
 
 def network_card_index(mac, token)
   uri = URI("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{mac}/network-card")
