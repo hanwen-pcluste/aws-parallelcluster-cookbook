@@ -17,7 +17,8 @@ provides :network_service, platform: 'amazon' do |node|
 end
 
 use 'partial/_network_service'
+use 'partial/_network_service_redhat_based'
 
 def network_service_name
-  'systemd-resolved'
+  'systemd-networkd'
 end
