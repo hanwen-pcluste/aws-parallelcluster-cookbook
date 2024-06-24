@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # amazon-ec2-net-utils is pre-installed in AL2023 and handles multi-nics instances properly
-return if on_docker? || platform?('amazon') && node['platform_version'].to_i == 2023
+return if on_docker?
 
 def network_card_index(mac, token)
   uri = URI("http://169.254.169.254/latest/meta-data/network/interfaces/macs/#{mac}/network-card")
