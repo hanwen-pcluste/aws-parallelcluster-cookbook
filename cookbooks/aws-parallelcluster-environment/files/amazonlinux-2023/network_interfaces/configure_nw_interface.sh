@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -ex
 
 if
   [ -z "${DEVICE_NAME}" ] ||          # name of the device
