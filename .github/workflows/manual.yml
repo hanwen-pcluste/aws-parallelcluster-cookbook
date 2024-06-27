@@ -12,7 +12,7 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'The version to bump to'
         # Default value if no value is explicitly provided
-        default: '3.11.0'
+        default: '3.12.0'
         # Input has to be provided for the workflow to run
         required: true
         # The data type of the input
@@ -31,7 +31,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Modifiy the specific files using scripts
-      run: ./util/bump-version.sh 3.11.0 1.4.0
+      run: ./util/bump-version.sh 3.12.0 1.5.0
         
     - name: Create Pull Requests
       uses: peter-evans/create-pull-request@v6
