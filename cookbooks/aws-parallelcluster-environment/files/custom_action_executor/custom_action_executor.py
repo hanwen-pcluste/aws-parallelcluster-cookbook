@@ -284,6 +284,24 @@ class ScriptRunner:
                 },
             ) from err
 
+        try:
+            subprocess.run(
+                f"vim {exe_script.path} -c \"set ff=unix\" -c \":wq\"", check=True, stderr=subprocess.PIPE
+            )  # nosec - trusted input
+        except subprocess.CalledProcessError as err:
+            raise DownloadRunError(
+                f"Failed to run {self.event_name} script {exe_script.step_num} {exe_script.url} "
+                f"due to a failure in making the file compatible with Linux, return code: {err.returncode}.",
+                f"Failed to run {self.event_name} script {exe_script.step_num} "
+                f"due to a failure in making the file compatible with Linux, return code: {err.returncode}.",
+                step_id=exe_script.step_num,
+                stage="executing",
+                error={
+                    "exit_code": err.returncode,
+                    "stderr": str(err.stderr),
+                },
+            ) from err
+
         # execute script with it's args
         try:
             # arguments are provided by the user who has the privilege to create/update the cluster
