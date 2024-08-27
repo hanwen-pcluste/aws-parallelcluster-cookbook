@@ -286,7 +286,7 @@ class ScriptRunner:
 
         try:
             subprocess.run(
-                f"vim {exe_script.path} -c \"set ff=unix\" -c \":wq\"", check=True, stderr=subprocess.PIPE
+                ["dos2unix", exe_script.path], check=True, stderr=subprocess.PIPE
             )  # nosec - trusted input
         except subprocess.CalledProcessError as err:
             raise DownloadRunError(
