@@ -55,10 +55,7 @@ ruby_block "wait for static fleet capacity" do
     # spot-st-t2large-2 idle
     # capacity-block-st-t2micro-1 maint
     # capacity-block-dy-t2micro-1 maint
-    is_fleet_ready_command = Shellwords.escape(
-      "set -o pipefail && #{node['cluster']['slurm']['install_dir']}/bin/sinfo -N -h -o '%N %t' | { grep -E '^[a-z0-9\\-]+\\-st\\-[a-z0-9\\-]+\\-[0-9]+ .*' || true; } | { grep -v -E '(idle|alloc|mix|maint)$' || true; }"
-    )
-    until shell_out!("/bin/bash -c #{is_fleet_ready_command}").stdout.strip.empty?
+    until shell_out!("/bin/bash -c /usr/local/bin/is_fleet_ready.sh").stdout.strip.empty?
       check_for_protected_mode(fleet_status_command)
 
       Chef::Log.info("Waiting for static fleet capacity provisioning")
